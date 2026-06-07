@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using TerminalChess;
 using System.Threading;
 
@@ -34,11 +35,13 @@ class Program
                 continue;
             }
 
+            /*
             if (board.Castle(input, IsWhite))
             {
                 moveCount++;
                 continue;
             }
+            */
 
             move = ParseMove(input);
 
@@ -48,11 +51,13 @@ class Program
                 continue;
             }
 
+            /*
             if (!board.ApplyMove(move, IsWhite))
             {
                 ErrorMessage();
                 continue;
             }
+            */
 
             moveCount++;
 
@@ -70,7 +75,7 @@ class Program
                 else
                     Console.WriteLine("White Wins!");
 
-                Console.WriteLine($"Move count: {moveCount}");
+                Console.WriteLine($"Move count: {moveCount / 2 + 1}");
 
                 return;
             }
@@ -93,7 +98,7 @@ class Program
     }
 
     static Move? ParseMove(string input)
-    {
+    {                   
         string[] parts = input.Split();
 
         if (parts.Length != 2)

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Chess UI/Chess UI.csproj" Id="564de2d4-9563-406c-b9d7-650c3994751b" />
+  <Project Path="TerminalChess/TerminalChess.csproj" />
+</Solution>

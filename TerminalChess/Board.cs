@@ -7,7 +7,7 @@ namespace TerminalChess
 {
     public class Board
     {
-        private Piece?[,] BoardArr =
+        public Piece?[,] BoardArr =
         {
             {new Rook(false), new Knight(false), new Bishop(false), new Queen(false), new King(false), new Bishop(false), new Knight(false), new Rook(false) },
             {new Pawn(false), new Pawn(false), new Pawn(false), new Pawn(false), new Pawn(false), new Pawn(false), new Pawn(false), new Pawn(false)},
@@ -102,13 +102,18 @@ namespace TerminalChess
             Console.Write("\n------------------\n");
         }
 
-        public bool ApplyMove(Move move, bool white)
+        public bool ApplyMove(Move move, bool white, int moveCount)
         {
             Position? kingPos;
             Piece? movingPiece = BoardArr[move.From.Y, move.From.X];
             Piece? temp = BoardArr[move.To.Y, move.To.X];
             int direction = white ? -1 : 1;
             bool EnPassant = false;
+
+            if (movingPiece.IsWhite && moveCount % 2 != 0)
+                return false;
+            else if (!movingPiece.IsWhite && moveCount % 2 == 0)
+                return false;
 
             if (movingPiece == null)
                 return false;
@@ -204,7 +209,8 @@ namespace TerminalChess
 
             if (movingPiece.IsValidMove(move, copyBoard) == false)
                 return false;
-            if (movingPiece.IsValidMove(move, copyBoard) == null) {
+            if (movingPiece.IsValidMove(move, copyBoard) == null)
+            {
                 EnPassant = true;
                 temp = copyBoard[move.To.Y - direction, move.To.X];
                 copyBoard[move.To.Y - direction, move.To.X] = null;
@@ -273,6 +279,7 @@ namespace TerminalChess
 
             return false;
         }
+
 
         public bool Castle(string input, bool white)
         {
@@ -366,6 +373,24 @@ namespace TerminalChess
                 return false;
 
             return true;
+        }
+
+        public bool BackRankPawn(bool isWhite)
+        {
+            int y = isWhite ? 0 : 7;
+
+            for (int x = 0; x < 8; x++)
+            {
+                if (BoardArr[y, x] is Pawn)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void Promote(Piece Promotion, bool isWhite, Position pos)
+        {
+            BoardArr[pos.Y, pos.X] = Promotion;
         }
     }
 }
